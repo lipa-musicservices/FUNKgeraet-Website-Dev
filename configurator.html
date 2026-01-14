@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FUNKgeræt | Band-Konfigurator</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <meta http-equiv="ScreenOrientation" content="autoRotate:disabled" />
+  <link rel="icon" type="image/png" href="Resources/FG-Icon.png" />
+</head>
+
+<body>
+  <div id="HeadBar"></div>
+
+  <!-- HERO / INTRO -->
+  <section class="CfgHero" aria-label="Band-Konfigurator">
+    <div class="CfgHero__inner">
+      <div class="CfgHero__badge">BAND-KONFIGURATOR</div>
+      <h1 class="CfgHero__title">Stell dir deine Besetzung zusammen</h1>
+      <p class="CfgHero__sub">
+        Klick die Instrumente an – wir berechnen daraus den
+        <span class="Accent">Vibe</span> für Party, Tanz & Background.
+      </p>
+
+      <div class="CfgHero__actions">
+        <a class="Btn Btn--accent" href="#cfg">Jetzt konfigurieren</a>
+        <a class="Btn Btn--ghost" href="contact.html">Direkt anfragen</a>
+      </div>
+    </div>
+  </section>
+
+  <main class="Page" id="cfg">
+    <!-- STEP 1 -->
+    <section class="Section">
+      <div class="SectionHead">
+        <h2 class="SectionTitle">1) Was ist dein Anlass?</h2>
+        <div class="SectionHint">Damit wir die Empfehlung passend formulieren</div>
+      </div>
+
+      <div class="CfgOccasion">
+        <button class="chip is-active" type="button" data-occasion="wedding">Hochzeit / Gala</button>
+        <button class="chip" type="button" data-occasion="corporate">Firmenevent</button>
+        <button class="chip" type="button" data-occasion="party">Party / Club</button>
+        <button class="chip" type="button" data-occasion="dinner">Empfang / Dinner</button>
+        <button class="chip" type="button" data-occasion="jazzclub">Jazzclub / Konzert</button>
+      </div>
+    </section>
+
+    <!-- STEP 2 -->
+    <section class="Section">
+      <div class="SectionHead">
+        <h2 class="SectionTitle">2) Wähle deine Besetzung</h2>
+        <div class="SectionHint">Einfach anklicken – geht auch mobil sauber</div>
+      </div>
+
+      <div class="CfgGrid" aria-label="Instrumente auswählen">
+        <!-- Core -->
+        <button class="CfgCard is-locked is-on" type="button" data-inst="drums" aria-pressed="true">
+          <div class="CfgCard__img">
+            <img src="Resources/Config/drums.jpg" alt="Drums" loading="lazy" />
+          </div>
+          <div class="CfgCard__top">
+            <div class="CfgCard__name">Drums</div>
+            <div class="CfgCard__tag">Fix</div>
+          </div>
+          <div class="CfgCard__desc">Groove & Drive</div>
+        </button>
+
+        <button class="CfgCard is-locked is-on" type="button" data-inst="bass" aria-pressed="true">
+          <div class="CfgCard__img">
+            <img src="Resources/Config/bass.jpg" alt="Bass" loading="lazy" />
+          </div>
+          <div class="CfgCard__top">
+            <div class="CfgCard__name">Bass</div>
+            <div class="CfgCard__tag">Fix</div>
+          </div>
+          <div class="CfgCard__desc">Fundament & Tanz</div>
+        </button>
+
+        <!-- Keys FIX -->
+        <button class="CfgCard is-locked is-on" type="button" data-inst="keys" aria-pressed="true">
+          <div class="CfgCard__img">
+            <img src="Resources/Config/keys.jpg" alt="Keys" loading="lazy" />
+          </div>
+          <div class="CfgCard__top">
+            <div class="CfgCard__name">Keys</div>
+            <div class="CfgCard__tag">Fix</div>
+          </div>
+          <div class="CfgCard__desc">Harmonie & Fläche</div>
+        </button>
+
+        <!-- Optional -->
+        <button class="CfgCard" type="button" data-inst="guitar" aria-pressed="false">
+          <div class="CfgCard__img">
+            <img src="Resources/Config/guitar.jpg" alt="Gitarre" loading="lazy" />
+          </div>
+          <div class="CfgCard__top">
+            <div class="CfgCard__name">Gitarre</div>
+            <div class="CfgCard__tag">Optional</div>
+          </div>
+          <div class="CfgCard__desc">Riffs & Energie</div>
+        </button>
+
+        <button class="CfgCard" type="button" data-inst="percussion" aria-pressed="false">
+          <div class="CfgCard__img">
+            <img src="Resources/Config/percussion.jpg" alt="Percussion" loading="lazy" />
+          </div>
+          <div class="CfgCard__top">
+            <div class="CfgCard__name">Percussion</div>
+            <div class="CfgCard__tag">Optional</div>
+          </div>
+          <div class="CfgCard__desc">Mehr Bewegung</div>
+        </button>
+
+        <button class="CfgCard" type="button" data-inst="vocals1" aria-pressed="false">
+          <div class="CfgCard__img">
+            <img src="Resources/Config/vocals1.jpg" alt="Gesang" loading="lazy" />
+          </div>
+          <div class="CfgCard__top">
+            <div class="CfgCard__name">Gesang</div>
+            <div class="CfgCard__tag">Optional</div>
+          </div>
+          <div class="CfgCard__desc">Front & Bekanntheit</div>
+        </button>
+
+        <button class="CfgCard" type="button" data-inst="vocals2" aria-pressed="false">
+          <div class="CfgCard__img">
+            <img src="Resources/Config/vocals2.jpg" alt="2. Gesang" loading="lazy" />
+          </div>
+          <div class="CfgCard__top">
+            <div class="CfgCard__name">2. Gesang</div>
+            <div class="CfgCard__tag">Optional</div>
+          </div>
+          <div class="CfgCard__desc">Druck & Chor</div>
+        </button>
+
+        <button class="CfgCard" type="button" data-inst="sax" aria-pressed="false">
+          <div class="CfgCard__img">
+            <img src="Resources/Config/sax.jpg" alt="Saxophon" loading="lazy" />
+          </div>
+          <div class="CfgCard__top">
+            <div class="CfgCard__name">Saxophon</div>
+            <div class="CfgCard__tag">Optional</div>
+          </div>
+          <div class="CfgCard__desc">Hooks & Soli</div>
+        </button>
+
+        <button class="CfgCard" type="button" data-inst="trumpet" aria-pressed="false">
+          <div class="CfgCard__img">
+            <img src="Resources/Config/trumpet.jpg" alt="Trompete" loading="lazy" />
+          </div>
+          <div class="CfgCard__top">
+            <div class="CfgCard__name">Trompete</div>
+            <div class="CfgCard__tag">Optional</div>
+          </div>
+          <div class="CfgCard__desc">Glanz & Punch</div>
+        </button>
+
+        <button class="CfgCard" type="button" data-inst="trombone" aria-pressed="false">
+          <div class="CfgCard__img">
+            <img src="Resources/Config/trombone.jpg" alt="Posaune" loading="lazy" />
+          </div>
+          <div class="CfgCard__top">
+            <div class="CfgCard__name">Posaune</div>
+            <div class="CfgCard__tag">Optional</div>
+          </div>
+          <div class="CfgCard__desc">Fett & tief</div>
+        </button>
+      </div>
+
+      <div class="CfgTools">
+        <button id="cfgReset" class="Btn Btn--ghost" type="button">Zurücksetzen</button>
+        <div class="CfgCount" id="cfgCount">—</div>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section class="Section">
+      <div class="SectionHead">
+        <h2 class="SectionTitle">3) Ergebnis</h2>
+        <div class="SectionHint">Live berechnet</div>
+      </div>
+
+      <div class="CfgResult">
+        <div class="CfgResult__left">
+          <div class="CfgMeter">
+            <div class="CfgMeter__head">
+              <div class="CfgMeter__label">Party-Faktor</div>
+              <div class="CfgMeter__value" id="vParty">—</div>
+            </div>
+            <div class="CfgBar"><div class="CfgBar__fill" id="bParty"></div></div>
+            <div class="CfgStars" id="sParty"></div>
+          </div>
+
+          <div class="CfgMeter">
+            <div class="CfgMeter__head">
+              <div class="CfgMeter__label">Tanz-Faktor</div>
+              <div class="CfgMeter__value" id="vDance">—</div>
+            </div>
+            <div class="CfgBar"><div class="CfgBar__fill" id="bDance"></div></div>
+            <div class="CfgStars" id="sDance"></div>
+          </div>
+
+          <div class="CfgMeter">
+            <div class="CfgMeter__head">
+              <div class="CfgMeter__label">Background-Faktor</div>
+              <div class="CfgMeter__value" id="vBg">—</div>
+            </div>
+            <div class="CfgBar"><div class="CfgBar__fill" id="bBg"></div></div>
+            <div class="CfgStars" id="sBg"></div>
+          </div>
+
+          <div class="CfgMeter">
+            <div class="CfgMeter__head">
+              <div class="CfgMeter__label">Jazzclub-Faktor</div>
+              <div class="CfgMeter__value" id="vJazz">—</div>
+            </div>
+            <div class="CfgBar"><div class="CfgBar__fill" id="bJazz"></div></div>
+            <div class="CfgStars" id="sJazz"></div>
+          </div>
+        </div>
+
+        <div class="CfgResult__right">
+          <div class="CfgSummary">
+            <div class="CfgSummary__title">Empfehlung</div>
+            <div class="CfgSummary__text" id="cfgText">
+              Wähle Instrumente – dann bekommst du hier eine klare Empfehlung.
+            </div>
+
+            <div class="CfgLine"></div>
+
+            <div class="CfgSummary__title">Deine Besetzung</div>
+            <div class="CfgPills" id="cfgPills"></div>
+
+            <div class="CfgLine"></div>
+
+            <div class="CfgCTA">
+              <a id="cfgMail" class="Btn Btn--accent" href="contact.html">Mit dieser Besetzung anfragen</a>
+              <button id="cfgCopy" class="Btn Btn--ghost" type="button">Zusammenfassung kopieren</button>
+            </div>
+
+            <textarea id="cfgPayload" class="CfgPayload" readonly></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST -->
+    <section class="Section Section--tight">
+      <div class="CTAline">
+        <div>
+          <div class="CTAline__title">Keine Ahnung was passt?</div>
+          <div class="CTAline__sub">Schick uns Anlass, Ort & Datum – wir empfehlen dir die beste Besetzung.</div>
+        </div>
+        <a class="Btn Btn--accent" href="contact.html">Jetzt anfragen</a>
+      </div>
+    </section>
+  </main>
+
+  <div id="FootBar"></div>
+
+  <!-- libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- partials -->
+  <script>
+    $("#HeadBar").load("FixedPages/HeadBar.html");
+    $("#FootBar").load("FixedPages/FootBar.html");
+  </script>
+
+  <!-- CONFIGURATOR LOGIC (inline clean MVP) -->
+  <script>
+    (() => {
+      const INST_LABELS = {
+        drums: "Drums",
+        bass: "Bass",
+        keys: "Keys",
+        guitar: "Gitarre",
+        percussion: "Percussion",
+        vocals1: "Gesang",
+        vocals2: "2. Gesang",
+        sax: "Saxophon",
+        trumpet: "Trompete",
+        trombone: "Posaune"
+      };
+
+      // Weights (tuned rough, clamped later)
+      const W = {
+        drums:     { party: 18, dance: 22, bg: -6, jazz:  8 },
+        bass:      { party: 12, dance: 18, bg:  6, jazz: 10 },
+        keys:      { party: 10, dance: 10, bg: 12, jazz: 14 },
+        guitar:    { party: 12, dance: 12, bg:  6, jazz:  8 },
+        percussion:{ party: 10, dance: 14, bg:  4, jazz:  6 },
+        vocals1:   { party: 18, dance: 16, bg: -4, jazz:  2 },
+        vocals2:   { party: 10, dance:  8, bg: -2, jazz:  1 },
+        sax:       { party: 14, dance: 10, bg: 10, jazz: 16 },
+        trumpet:   { party: 14, dance: 10, bg:  8, jazz: 14 },
+        trombone:  { party: 10, dance:  8, bg:  8, jazz: 14 }
+      };
+
+      // State
+      let occasion = "wedding";
+      const locked = new Set(["drums", "bass", "keys"]);
+      const active = new Set(["drums", "bass", "keys"]);
+
+      // Elements
+      const occBtns = document.querySelectorAll(".CfgOccasion .chip");
+      const cards = document.querySelectorAll(".CfgCard");
+      const pills = document.getElementById("cfgPills");
+      const txt   = document.getElementById("cfgText");
+      const payload = document.getElementById("cfgPayload");
+      const countEl = document.getElementById("cfgCount");
+
+      const vParty = document.getElementById("vParty");
+      const vDance = document.getElementById("vDance");
+      const vBg    = document.getElementById("vBg");
+      const vJazz  = document.getElementById("vJazz");
+
+      const bParty = document.getElementById("bParty");
+      const bDance = document.getElementById("bDance");
+      const bBg    = document.getElementById("bBg");
+      const bJazz  = document.getElementById("bJazz");
+
+      const sParty = document.getElementById("sParty");
+      const sDance = document.getElementById("sDance");
+      const sBg    = document.getElementById("sBg");
+      const sJazz  = document.getElementById("sJazz");
+
+      const btnReset = document.getElementById("cfgReset");
+      const btnCopy  = document.getElementById("cfgCopy");
+      const cfgMail  = document.getElementById("cfgMail");
+
+      const clamp = (n,a,b) => Math.max(a, Math.min(b, n));
+      const round = (n) => Math.round(n);
+
+      function starString(score){
+        const s = clamp(score, 0, 100);
+        const n = Math.round(s / 20); // 0..5
+        let out = "";
+        for (let i=0;i<5;i++) out += (i < n) ? "★" : "☆";
+        return out;
+      }
+
+      function listActiveLabels(){
+        return Array.from(active).map(k => INST_LABELS[k] || k);
+      }
+
+      function compute(){
+        let party=10, dance=10, bg=10, jazz=10;
+
+        active.forEach(k => {
+          const ww = W[k];
+          if (!ww) return;
+          party += ww.party;
+          dance += ww.dance;
+          bg    += ww.bg;
+          jazz  += ww.jazz;
+        });
+
+        const horns  = ["sax","trumpet","trombone"].filter(h => active.has(h)).length;
+        const vocals = (active.has("vocals1")?1:0) + (active.has("vocals2")?1:0);
+        const size   = active.size;
+
+        if (horns >= 2){ party += 10; dance += 6; }
+        if (horns >= 3){ party += 6;  dance += 4; }
+        if (vocals >= 1 && horns >= 1){ party += 8; }
+        if (vocals === 0){ bg += 8; jazz += 6; }
+        if (size >= 6){ party += 6; dance += 6; }
+        if (active.has("percussion") && active.has("drums")){ dance += 4; }
+
+        // Occasion bias (light)
+        if (occasion === "dinner"){
+          bg += 10; party -= 4; dance -= 4;
+        } else if (occasion === "party"){
+          party += 10; dance += 10; bg -= 6;
+        } else if (occasion === "jazzclub"){
+          jazz += 12; bg += 6; party -= 4;
+        } else if (occasion === "corporate"){
+          bg += 6; party += 2; dance += 2;
+        } else { // wedding
+          bg += 4; party += 4; dance += 4;
+        }
+
+        return {
+          party: clamp(party, 0, 100),
+          dance: clamp(dance, 0, 100),
+          bg:    clamp(bg,    0, 100),
+          jazz:  clamp(jazz,  0, 100),
+          horns, vocals, size
+        };
+      }
+
+      function occasionLabel(){
+        return ({
+          wedding: "Hochzeit / Gala",
+          corporate: "Firmenevent",
+          party: "Party / Club",
+          dinner: "Empfang / Dinner",
+          jazzclub: "Jazzclub / Konzert"
+        })[occasion] || "Event";
+      }
+
+      function makeRecommendation(s){
+        const arr = [
+          {k:"party", v:s.party},
+          {k:"dance", v:s.dance},
+          {k:"bg",    v:s.bg},
+          {k:"jazz",  v:s.jazz}
+        ].sort((a,b)=>b.v-a.v);
+
+        const lead = arr[0].k;
+
+        let lines = [];
+        lines.push(`Anlass: ${occasionLabel()}`);
+        lines.push(`Besetzung: ${s.size} Musiker${s.vocals?` · ${s.vocals}× Gesang`:``}${s.horns?` · ${s.horns}× Bläser`:``}`);
+        lines.push("");
+
+        if (lead === "dance"){
+          lines.push("Das Setup ist klar tanzorientiert: Groove vorne, Druck da, ohne Stress.");
+        } else if (lead === "party"){
+          lines.push("Das Setup ist publikumswirksam: klare Hooks, Energie und viel „mitgehen“.");
+        } else if (lead === "bg"){
+          lines.push("Das Setup ist edel & kontrolliert: Atmosphäre zuerst, tanzbar wenn ihr wollt.");
+        } else {
+          lines.push("Das Setup ist konzerttauglich: musikalische Tiefe, Soli, Listening-Vibe.");
+        }
+
+        if (occasion === "party" && s.vocals === 0){
+          lines.push("");
+          lines.push("Upgrade-Idee: Gesang macht’s sofort zugänglicher (Publikum ist schneller drin).");
+        }
+        if (s.horns === 1 && (s.party > 60 || s.dance > 60)){
+          lines.push("");
+          lines.push("Upgrade-Idee: 2. Bläser = sofort „Horn-Section“-Effekt (fetter, moderner).");
+        }
+        if (occasion === "dinner" && (s.party > 70 || s.dance > 70)){
+          lines.push("");
+          lines.push("Hinweis: Für Dinner am besten Sets trennen: erst classy, später tanzbar.");
+        }
+        if (occasion === "jazzclub" && s.vocals > 0 && s.jazz < 55){
+          lines.push("");
+          lines.push("Hinweis: Im Jazzclub wirkt instrumental oft stärker – oder Gesang gezielt dosieren.");
+        }
+
+        return lines.join("\n");
+      }
+
+      function updateUI(){
+        // Cards
+        cards.forEach(card => {
+          const key = card.getAttribute("data-inst");
+          const on = active.has(key);
+          card.classList.toggle("is-on", on);
+          card.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+
+        countEl.textContent = `${active.size} Musiker ausgewählt`;
+
+        const s = compute();
+
+        // Values
+        vParty.textContent = round(s.party);
+        vDance.textContent = round(s.dance);
+        vBg.textContent    = round(s.bg);
+        vJazz.textContent  = round(s.jazz);
+
+        // Bars
+        bParty.style.width = `${s.party}%`;
+        bDance.style.width = `${s.dance}%`;
+        bBg.style.width    = `${s.bg}%`;
+        bJazz.style.width  = `${s.jazz}%`;
+
+        // Stars
+        sParty.textContent = starString(s.party);
+        sDance.textContent = starString(s.dance);
+        sBg.textContent    = starString(s.bg);
+        sJazz.textContent  = starString(s.jazz);
+
+        // Pills
+        const items = Array.from(active);
+        pills.innerHTML = items.map(k => `<span class="CfgPill">${INST_LABELS[k] || k}</span>`).join("");
+
+        // Recommendation text (no markdown hacks)
+        const rec = makeRecommendation(s);
+        txt.textContent = rec;
+
+        // Payload
+        const payloadText =
+`FUNKgeræt Band-Konfigurator
+Anlass: ${occasionLabel()}
+Besetzung: ${listActiveLabels().join(", ")}
+
+Scores:
+Party: ${round(s.party)}
+Tanz: ${round(s.dance)}
+Background: ${round(s.bg)}
+Jazzclub: ${round(s.jazz)}
+`;
+        payload.value = payloadText;
+
+        // CTA (simple query param)
+        const enc = encodeURIComponent(payloadText);
+        cfgMail.setAttribute("href", `contact.html?config=${enc}`);
+      }
+
+      // Occasion
+      occBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          occBtns.forEach(b => b.classList.remove("is-active"));
+          btn.classList.add("is-active");
+          occasion = btn.getAttribute("data-occasion") || "wedding";
+          updateUI();
+        });
+      });
+
+      // Cards toggle
+      cards.forEach(card => {
+        const key = card.getAttribute("data-inst");
+        card.addEventListener("click", () => {
+          if (!key) return;
+          if (locked.has(key)) return;
+
+          if (active.has(key)) active.delete(key);
+          else active.add(key);
+
+          updateUI();
+        });
+      });
+
+      // Reset
+      btnReset.addEventListener("click", () => {
+        active.clear();
+        locked.forEach(k => active.add(k));
+        updateUI();
+      });
+
+      // Copy
+      btnCopy.addEventListener("click", async () => {
+        const old = btnCopy.textContent;
+        try{
+          await navigator.clipboard.writeText(payload.value);
+          btnCopy.textContent = "Kopiert!";
+        }catch(e){
+          payload.focus();
+          payload.select();
+          document.execCommand("copy");
+          btnCopy.textContent = "Kopiert!";
+        }
+        setTimeout(()=>btnCopy.textContent=old, 1200);
+      });
+
+      // Init
+      updateUI();
+    })();
+  </script>
+</body>
+</html>

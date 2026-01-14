@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FUNKger&aelig;t | Impressum</title>
+    <link rel="stylesheet" href="style.css"></link>
+    <link rel="stylesheet" href="styleHeadbar.css"></link>
+    <link rel="stylesheet" href="styleFootbar.css"></link>
+
+    <meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
+    
+    <link rel="icon" type="image/png" href="Resources/FG-Icon.png">
+  </head>
+
+  <body onresize="ResizeFunction()" onload="ResizeFunction()">
+    <div id="HeadBar"></div>
+
+    <div class="PageBackground">
+
+      <div class="Spacer"></div>
+      <table class="FrameTable">
+        <tr>
+          <th class="FrameSides" width="10%"></th>
+          <th class="FrameContent" width="80%">
+            <div class="Headline1">
+              Impressum
+            </div>
+          </th>
+          <th class="FrameSides" width="10%"></th>
+        </tr>
+    </table>
+    <div class="Spacer"></div>
+      <table class="FrameTable">
+        <tr>
+          <th class="FrameSides" width="10%"></th>
+          <th class="FrameContent" width="80%">
+            <div id="Impressum" class='StdText'></div>  
+          </th>
+          <th class="FrameSides" width="10%"></th>
+        </tr>
+      </table>
+    </div>
+    </div>
+    <div class="Spacer"></div>
+    <div class="Spacer"></div>
+    <div class="Spacer"></div>
+
+    <div id="FootBar"></div>
+
+  </body>
+</html>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+  function ResizeFunction() {
+    if (window.innerWidth < 800) {
+      $("#HeadBar").load("FixedPages/HeadBarCollapsed.html"); 
+      $("#FootBar").load("FixedPages/FootBar.html"); 
+    }
+    else {
+      $("#HeadBar").load("FixedPages/HeadBar.html"); 
+      $("#FootBar").load("FixedPages/FootBar.html"); 
+    }
+  }
+</script>
+
+<script>
+  var txtFile1 = new XMLHttpRequest();
+    var allText1 = "";
+
+    txtFile1.onreadystatechange = function () {
+        if (txtFile1.readyState === XMLHttpRequest.DONE && txtFile1.status == 200) {
+          allText1 = txtFile1.responseText;
+          allText1 = allText1.split("\n").join("<br>");
+        }
+
+        document.getElementById('Impressum').innerHTML = allText1;
+    }
+    
+    txtFile1.open("GET", "Texts/Impressum.txt", true);
+    txtFile1.send(null);
+</script>

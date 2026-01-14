@@ -1,0 +1,44 @@
+<footer class="FootBar">
+  <div class="FootBar__inner">
+    <div class="FootCol FootCol--brand">
+      <a class="FootBrand" href="index.html" aria-label="Zur Startseite">
+        <img class="FooterLogo" src="Resources/Logo.png" alt="FUNKgeræt Logo" />
+      </a>
+
+      <div class="FooterText" id="Adress">
+        <div class="FooterTitle">FUNKgeræt</div>
+        <div class="FooterMuted">67655 Kaiserslautern</div>
+      </div>
+    </div>
+
+    <nav class="FootCol FootCol--links" aria-label="Footer Navigation">
+  <a class="FooterInternalLink" href="index.html">Home</a>
+
+  <a class="FooterInternalLink" href="jazz.html">Jazz-Band</a>
+  <a class="FooterInternalLink" href="events.html">Event-Band</a>
+
+  <a class="FooterInternalLink" href="media.html">Media</a>
+  <a class="FooterInternalLink" href="downloads.html">Downloads</a>
+  <a class="FooterInternalLink" href="contact.html">Kontakt</a>
+
+  <a class="FooterInternalLink" href="about.html">Über uns</a>
+  <a class="FooterInternalLink" href="impressum.html">Impressum</a>
+</nav>
+
+  </div>
+
+  <div class="FootBar__bottom">
+    <div class="CopyrightNoticeFooter">
+      <span>© <span id="VARCurYear"></span> FUNKgeræt</span>
+    </div>
+
+    <div class="PoweredBy">
+      <span>This website is powered by </span>
+      <a class="PoweredByLink" href="https://lipamusicservices.com" target="_blank" rel="noopener">LiPa Music Services</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("VARCurYear").textContent = new Date().getFullYear();
+</script>
