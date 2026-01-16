@@ -1867,61 +1867,128 @@ main.Page > .Section:last-child .InfoRows{
     0 26px 60px rgba(0,0,0,.35);
 }
 
-/* image: top aligned, BW off, color on */
+/* =========================================================
+   CONFIGURATOR — QUADRATISCHE ICON-FLÄCHE (clean)
+   ========================================================= */
+
 .CfgCard__img{
   width: 100%;
-  height: 108px;
+  aspect-ratio: 1 / 1;          /* ✅ quadratisch */
   border-radius: 14px;
   overflow: hidden;
-  border: 1px solid rgba(233,244,236,.08);
-  background: rgba(0,0,0,.22);
+
+  /* wichtig: KEIN Border -> PNG hat schon Rahmen */
+  border: none;
+
+  /* ruhig, wertig */
+  background: rgba(0,0,0,.20);
+  padding: 14px;               /* Luft, damit PNG-Rand nicht anklebt */
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
   margin-bottom: 10px;
+  margin-top: 0;
 }
+
+/* Das Icon/PNG sauber zentriert, ohne Verzerren */
 .CfgCard__img img{
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: top;   /* ✅ oben bündig */
+  object-fit: contain;         /* ✅ zeigt das ganze PNG */
+  object-position: center;
   display:block;
 
-  filter: grayscale(1) contrast(1.06) brightness(.90);
-  opacity: .85;
-  transition: filter .18s ease, opacity .18s ease, transform .18s ease;
+  /* Off-State (grau) */
+  filter: grayscale(1) brightness(.82) contrast(1.05);
+  opacity: .78;
+
+  transition: filter .18s ease, opacity .18s ease;
 }
-.CfgCard:hover .CfgCard__img img{ transform: scale(1.01); }
+
+/* ON-State: farbig + etwas mehr Punch */
+.CfgCard.is-on .CfgCard__img{
+  background: rgba(0,255,0,.08);
+}
+
 .CfgCard.is-on .CfgCard__img img{
-  filter: grayscale(0) contrast(1.08) brightness(1.00);
+  filter: grayscale(0) brightness(1.02) contrast(1.10);
   opacity: 1;
 }
 
-/* top line */
-.CfgCard__top{
-  display:flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 10px;
+/* Hover: KEIN Zoom (sonst wirkt’s billig) */
+.CfgCard:hover .CfgCard__img img{
+  transform: none;
 }
+
+/* =========================
+   Config Cards – Tag sauber
+   ========================= */
+
+.CfgCard{
+  position: relative;
+  padding-top: 36px;   /* vorher 10px -> jetzt Header-Zone */
+}
+
+/* Kopfzeile: nicht mehr baseline, sondern sauberer Block */
+.CfgCard__top{
+  display:block;
+  padding-right: 78px;             /* Platz für Badge rechts */
+  margin-top: 2px;
+}
+
+/* Name immer “oben” */
 .CfgCard__name{
   font-weight: 950;
   letter-spacing: .2px;
+  line-height: 1.15;
+  margin: 0;
 }
-.CfgCard__tag{
-  font-size: 11px;
-  font-weight: 950;
-  letter-spacing: .7px;
-  text-transform: uppercase;
-  opacity: .85;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(233,244,236,.12);
-  background: rgba(233,244,236,.05);
-}
+
+/* Beschreibung darunter */
 .CfgCard__desc{
   margin-top: 6px;
   color: rgba(233,244,236,.70);
   font-size: 13px;
   line-height: 1.35;
 }
+
+.CfgCard__tag{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  height: 20px;
+  padding: 0 10px;
+  border-radius: 999px;
+
+  font-size: 10.5px;
+  font-weight: 950;
+  letter-spacing: .9px;
+
+  border: 1px solid rgba(233,244,236,.14);
+  background: rgba(233,244,236,.04);
+  color: rgba(233,244,236,.80);
+
+  box-shadow: none; /* weniger Sticker-Vibe */
+}
+
+/* Active card: Badge darf grün “glänzen”, aber lesbar */
+.CfgCard.is-on .CfgCard__tag{
+  border-color: rgba(0,255,0,.30);
+  background: rgba(0,255,0,.08);
+  color: rgba(0,255,0,.95);
+}
+
+.CfgCard.is-locked .CfgCard__tag{
+  border-color: rgba(0,255,0,.40);
+  background: rgba(0,255,0,.10);
+  color: rgba(0,255,0,.95);
+}
+
+/* OPTIONAL (default) bleibt neutral */
+
 
 /* active card highlight */
 .CfgCard.is-on{
@@ -2094,3 +2161,128 @@ main.Page > .Section:last-child .InfoRows{
   .CfgHero__inner{ padding: 44px 16px 36px; }
   .CfgCard__img{ height: 96px; }
 }
+
+/* Gruppen-Layout */
+.CfgGroups{
+  margin-top: 14px;
+  display: grid;
+  gap: 18px;
+}
+
+.CfgGroup{
+  border: 1px solid rgba(233,244,236,.08);
+  background: rgba(233,244,236,.02);
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 18px 40px rgba(0,0,0,.20);
+}
+
+.CfgGroup__head{
+  display:flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.CfgGroup__title{
+  font-weight: 950;
+  letter-spacing: .4px;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.CfgGroup__hint{
+  color: rgba(233,244,236,.60);
+  font-size: 13px;
+}
+
+/* 2-Spalten-Layout */
+.CfgLayout{
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.CfgLeft{ min-width: 0; }
+.CfgRight{ min-width: 0; }
+
+/* Sticky Ergebnis rechts */
+.CfgSticky{
+  position: sticky;
+  top: calc(var(--topbarH) + 14px);
+}
+
+/* Blöcke links (kleine saubere Rahmen) */
+.CfgBlock{
+  border: 1px solid rgba(233,244,236,.08);
+  background: rgba(233,244,236,.02);
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 18px 40px rgba(0,0,0,.20);
+  margin-bottom: 16px;
+}
+
+.CfgBlock__head{
+  display:flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.CfgBlock__title{
+  font-weight: 950;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.CfgBlock__hint{
+  color: rgba(233,244,236,.60);
+  font-size: 13px;
+}
+
+/* Mobile: Ergebnis unter Auswahl */
+@media (max-width: 920px){
+  .CfgLayout{ grid-template-columns: 1fr; }
+  .CfgSticky{ position: static; }
+}
+
+/* Spielzeit Slider */
+.CfgPlaytime{ margin-top:10px; display:grid; gap:10px; }
+
+.CfgSlider{
+  width:100%;
+  appearance:none;
+  height:12px;
+  border-radius:999px;
+  background: rgba(233,244,236,.08);
+  border: 1px solid rgba(233,244,236,.12);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.25) inset;
+  outline:none;
+}
+
+.CfgSlider::-webkit-slider-thumb{
+  appearance:none;
+  width:22px; height:22px;
+  border-radius:999px;
+  background: linear-gradient(180deg, rgba(0,255,0,1), rgba(0,255,0,.72));
+  box-shadow: 0 12px 26px rgba(0,255,0,.16), 0 0 0 1px rgba(0,0,0,.45) inset;
+  cursor:pointer;
+}
+
+.CfgSlider::-moz-range-thumb{
+  width:22px; height:22px;
+  border:none;
+  border-radius:999px;
+  background: linear-gradient(180deg, rgba(0,255,0,1), rgba(0,255,0,.72));
+  box-shadow: 0 12px 26px rgba(0,255,0,.16), 0 0 0 1px rgba(0,0,0,.45) inset;
+  cursor:pointer;
+}
+
+.CfgPlaytime__meta{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+.CfgPlaytime__value{ font-weight:950; letter-spacing:.2px; }
+.CfgPlaytime__legend{ color: rgba(233,244,236,.65); font-size:12.5px; }
