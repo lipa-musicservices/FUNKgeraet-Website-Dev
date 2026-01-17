@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -5,13 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FUNKgeræt | Band-Konfigurator</title>
 
+  <link rel="icon" type="image/png" href="Resources/FG-Icon.png" />
   <link rel="stylesheet" href="style.css" />
 
-  <meta http-equiv="ScreenOrientation" content="autoRotate:disabled" />
-  <link rel="icon" type="image/png" href="Resources/FG-Icon.png" />
+  <!-- OPTIONAL, falls du diese Dateien nutzt wie auf anderen Seiten -->
+  <!-- <link rel="stylesheet" href="styleHeadbar.css" /> -->
+  <!-- <link rel="stylesheet" href="styleFootbar.css" /> -->
 </head>
 
 <body>
+
+  <!-- ✅ Headbar wie auf anderer Seite -->
   <div id="HeadBar"></div>
 
   <!-- HERO -->
@@ -35,25 +40,77 @@
     <section class="Section">
       <div class="SectionHead">
         <h2 class="SectionTitle">Band-Konfigurator</h2>
-        <div class="SectionHint">Links auswählen → rechts live Ergebnis</div>
+        <div class="SectionHint"></div>
       </div>
 
       <div class="CfgLayout">
         <!-- LEFT -->
         <div class="CfgLeft">
 
-          <!-- Spielzeit -->
+          <!-- Spielzeit + PLZ -->
           <div class="CfgBlock">
             <div class="CfgBlock__head">
               <div class="CfgBlock__title">1) Spielzeit</div>
               <div class="CfgBlock__hint">wir planen Sets & Energie passend</div>
             </div>
 
-            <div class="CfgPlaytime">
-              <input id="playtime" class="CfgSlider" type="range" min="30" max="240" step="15" value="90" />
-              <div class="CfgPlaytime__meta">
-                <div class="CfgPlaytime__value"><span id="playtimeVal">90</span> min</div>
-                <div class="CfgPlaytime__legend">30–240 min · 15er Schritte</div>
+            <div class="CfgPlaytime CfgPlaytime--premium">
+              <div class="CfgPT__grid">
+
+                <!-- Slider Card -->
+                <div class="CfgPT__card">
+                  <div class="CfgPT__top">
+                    <div class="CfgPT__label">Spielzeit</div>
+                    <div class="CfgPT__pill">
+                      <span id="playtimeVal">90</span><span class="CfgPT__pillUnit">min</span>
+                    </div>
+                  </div>
+
+                  <input id="playtime" class="CfgSlider" type="range"
+                         min="60" max="360" step="15" value="90" />
+
+                  <div class="CfgPT__bottom">
+                    <div class="CfgPT__hint">60–360 min</div>
+                    <div class="CfgPT__micro">Wir planen Sets & Energie passend</div>
+                  </div>
+                </div>
+
+                <!-- PLZ Card -->
+                <div class="CfgPT__card">
+                  <div class="CfgPT__top">
+                    <div class="CfgPT__label">Ort</div>
+                    <div class="CfgPT__chip">für Fahrtkosten & Verfügbarkeit</div>
+                  </div>
+
+                  <div class="CfgZip">
+                    <span class="CfgZip__icon">⌁</span>
+                    <input id="cfgZip" class="CfgZip__input" type="text" inputmode="numeric"
+                           maxlength="5" placeholder="z.B. 70173" />
+                  </div>
+
+                  <div class="CfgPT__bottom">
+                    <div class="CfgPT__hint">Optional – du kannst’s auch später angeben</div>
+                  </div>
+                </div>
+
+                <!-- DATE Card -->
+                <div class="CfgPT__card">
+                  <div class="CfgPT__top">
+                    <div class="CfgPT__label">Event-Datum</div>
+                    <div class="CfgPT__chip">Wunschdatum</div>
+                  </div>
+
+                  <div class="CfgZip">
+                    <span class="CfgZip__icon">📅</span>
+                    <input id="cfgDate" class="CfgZip__input" type="date" />
+                  </div>
+
+                  <div class="CfgPT__bottom">
+                    <div class="CfgPT__hint">Optional – hilft bei Verfügbarkeit</div>
+                  </div>
+                </div>
+
+
               </div>
             </div>
           </div>
@@ -191,8 +248,8 @@
             </div>
 
             <div class="CfgTools">
-              <button id="cfgReset" class="Btn Btn--ghost" type="button">Zurücksetzen</button>
-              <div class="CfgCount" id="cfgCount">—</div>
+              <button id="cfgReset" class="Btn Btn--ghost" type="button" style="display: none;"></button>
+              <div class="CfgCount" id="cfgCount"></div>
             </div>
           </div>
         </div>
@@ -201,69 +258,116 @@
         <aside class="CfgRight">
           <div class="CfgSticky">
 
-            <div class="CfgResult__left">
-              <div class="CfgMeter">
-                <div class="CfgMeter__head">
-                  <div class="CfgMeter__label">Party-Faktor</div>
-                  <div class="CfgMeter__value" id="vParty">—</div>
-                </div>
-                <div class="CfgBar"><div class="CfgBar__fill" id="bParty"></div></div>
-                <div class="CfgStars" id="sParty"></div>
+            <!-- METERS -->
+            <div class="CfgMeter">
+              <div class="CfgMeter__head">
+                <div class="CfgMeter__label">Party-Faktor</div>
+                <div class="CfgMeter__value" id="vParty">—</div>
               </div>
-
-              <div class="CfgMeter">
-                <div class="CfgMeter__head">
-                  <div class="CfgMeter__label">Tanz-Faktor</div>
-                  <div class="CfgMeter__value" id="vDance">—</div>
-                </div>
-                <div class="CfgBar"><div class="CfgBar__fill" id="bDance"></div></div>
-                <div class="CfgStars" id="sDance"></div>
-              </div>
-
-              <div class="CfgMeter">
-                <div class="CfgMeter__head">
-                  <div class="CfgMeter__label">Background-Faktor</div>
-                  <div class="CfgMeter__value" id="vBg">—</div>
-                </div>
-                <div class="CfgBar"><div class="CfgBar__fill" id="bBg"></div></div>
-                <div class="CfgStars" id="sBg"></div>
-              </div>
-
-              <div class="CfgMeter">
-                <div class="CfgMeter__head">
-                  <div class="CfgMeter__label">Jazzclub-Faktor</div>
-                  <div class="CfgMeter__value" id="vJazz">—</div>
-                </div>
-                <div class="CfgBar"><div class="CfgBar__fill" id="bJazz"></div></div>
-                <div class="CfgStars" id="sJazz"></div>
-              </div>
+              <div class="CfgBar"><div class="CfgBar__fill" id="bParty"></div></div>
+              <div class="CfgStars" id="sParty"></div>
             </div>
 
+            <div class="CfgMeter">
+              <div class="CfgMeter__head">
+                <div class="CfgMeter__label">Tanz-Faktor</div>
+                <div class="CfgMeter__value" id="vDance">—</div>
+              </div>
+              <div class="CfgBar"><div class="CfgBar__fill" id="bDance"></div></div>
+              <div class="CfgStars" id="sDance"></div>
+            </div>
+
+            <div class="CfgMeter">
+              <div class="CfgMeter__head">
+                <div class="CfgMeter__label">Background-Faktor</div>
+                <div class="CfgMeter__value" id="vBg">—</div>
+              </div>
+              <div class="CfgBar"><div class="CfgBar__fill" id="bBg"></div></div>
+              <div class="CfgStars" id="sBg"></div>
+            </div>
+
+            <div class="CfgMeter">
+              <div class="CfgMeter__head">
+                <div class="CfgMeter__label">Jazzclub-Faktor</div>
+                <div class="CfgMeter__value" id="vJazz">—</div>
+              </div>
+              <div class="CfgBar"><div class="CfgBar__fill" id="bJazz"></div></div>
+              <div class="CfgStars" id="sJazz"></div>
+            </div>
+
+            <!-- SUMMARY -->
             <div class="CfgSummary" style="margin-top:14px;">
-              <div class="CfgPriceBox">
-                <div class="CfgSummary__title">Preisrahmen</div>
-                <div class="CfgPrice" id="cfgPrice">—</div>
-                <div class="CfgPriceHint" id="cfgPriceHint">zzgl. Fahrtkosten · Richtwert abhängig von Datum, Ort, Technik & Sonderwünschen</div>
+
+              <!-- PRICE BOX -->
+              <div class="CfgPriceBox CfgPriceBox--hero">
+                <div class="CfgPriceTop">
+                  <div class="CfgSummary__title">Preis</div>
+                  <div class="CfgPriceHint" id="cfgPriceHint">zzgl. Fahrtkosten</div>
+                </div>
+
+                <div class="CfgPriceBig">
+                  <div class="CfgPricePrefix">AB</div>
+                  <div class="CfgPriceValue" id="cfgPrice">—</div>
+                  <div class="CfgPriceSuffix">€</div>
+                </div>
+
+                <div class="CfgPriceSub" id="cfgPriceSub"></div>
               </div>
 
               <div class="CfgLine"></div>
 
-              <div class="CfgSummary__title">Empfehlung</div>
-              <div class="CfgSummary__text" id="cfgText">Wähle Instrumente – dann bekommst du hier eine klare Empfehlung.</div>
+              <!-- TECH -->
+              <div class="CfgTechBox">
+                <div class="CfgSummary__title">Technik & Downloads</div>
 
+                <div class="CfgTechRow">
+                  <div class="CfgTechLabel">Technikpläne für Ihre konfigurierte Besetzung</div>
+                  <div class="CfgTechValue" id="cfgTechName"></div>
+                </div>
+
+                <div class="CfgTechActions">
+                  <a class="Btn Btn--ghost" id="cfgRiderPdf" href="#" target="_blank" rel="noopener">Technical Rider (PDF)</a>
+                  <a class="Btn Btn--ghost" id="cfgStageplanPdf" href="#" target="_blank" rel="noopener">Bühnenplan (PDF)</a>
+                </div>
+
+                <div class="CfgTechHint" id="cfgTechHint">
+                  Technik wird je nach Location final mit Ihnen abgestimmt.
+                </div>
+              </div>
+
+              <!-- DIRECT CONTACT -->
               <div class="CfgLine"></div>
+              <div class="CfgSummary__title">Direkt anfragen</div>
 
-              <div class="CfgSummary__title">Deine Besetzung</div>
-              <div class="CfgPills" id="cfgPills"></div>
+              <div class="CfgContactGrid">
+                <div class="CfgContactField">
+                  <label class="CfgContactLabel" for="leadEmail">E-Mail</label>
+                  <input id="leadEmail" class="CfgContactInput" type="email"
+                         placeholder="z.B. name@mail.de" autocomplete="email" required>
+                </div>
+
+                <div class="CfgContactField">
+                  <label class="CfgContactLabel" for="leadPhone">Telefon</label>
+                  <input id="leadPhone" class="CfgContactInput" type="tel"
+                         placeholder="z.B. +49 171 1234567" autocomplete="tel">
+                </div>
+
+                <!-- Honeypot -->
+                <input id="hpCompany" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="HpField">
+              </div>
+
+              <div class="CfgContactActions">
+                <button id="cfgDirectSend" class="Btn Btn--accent" type="button">Jetzt direkt anfragen</button>
+                <div class="CfgContactStatus" id="cfgDirectStatus"></div>
+              </div>
 
               <div class="CfgLine"></div>
 
               <div class="CfgCTA">
-                <a id="cfgMail" class="Btn Btn--accent" href="contact.html">Mit dieser Besetzung anfragen</a>
-                <button id="cfgCopy" class="Btn Btn--ghost" type="button">Zusammenfassung kopieren</button>
+                <a class="Btn Btn--ghost" id="cfgMailLink" href="#" target="_blank" rel="noopener">Per Mail anfragen</a>
+                <a class="Btn Btn--ghost" id="cfgWhatsAppLink" href="#" target="_blank" rel="noopener">WhatsApp</a>
               </div>
 
-              <textarea id="cfgPayload" class="CfgPayload" readonly></textarea>
             </div>
 
           </div>
@@ -272,371 +376,458 @@
     </section>
   </main>
 
+  <!-- ✅ Footbar wie auf anderer Seite -->
   <div id="FootBar"></div>
 
-  <!-- partials (optional) -->
+  <!-- ✅ jQuery + load() wie auf anderer Seite -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script>
     $("#HeadBar").load("FixedPages/HeadBar.html");
     $("#FootBar").load("FixedPages/FootBar.html");
   </script>
 
-  <!-- CONFIGURATOR LOGIC -->
-  <script>
-  (() => {
-    const INST_LABELS = {
-      drums: "Drums",
-      bass: "Bass",
-      keys: "Keys",
-      guitar: "Gitarre",
-      percussion: "Percussion",
-      vocals1: "Gesang (w)",
-      vocals2: "Gesang (m)",
-      rap: "Rap",
-      sax: "Saxophon",
-      trumpet: "Trompete",
-      trombone: "Posaune"
-    };
+<script>
+(() => {
+  "use strict";
 
+  // =========================================================
+  // CONFIG
+  // =========================================================
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzF5Rfupb9ZJrOdWDJ-70JUw0vcefVsXaL_Dv2gC5eM7JhJ3WmBWW9dHRkaPwRNz1xn/exec";
+  const BOOKING_EMAIL = "lipa.musicservices@gmail.com";
+  const WHATSAPP_NUMBER = "4915225395955";
+
+  // Rate Limit: max. 3 Anfragen / 5 Minuten pro Rechner (localStorage)
+  const RL_KEY = "FG_CFG_SEND_TIMES";
+  const RL_WINDOW_MS = 5 * 60 * 1000;
+  const RL_MAX = 3;
+
+  // =========================================================
+  // DATA MODEL
+  // =========================================================
+  const INST = {
+    drums:   { label:"Drums",   group:"Rhythmus", locked:false, forced:false },
+    bass:    { label:"Bass",    group:"Rhythmus", locked:false, forced:false },
+    keys:    { label:"Keys",    group:"Rhythmus", locked:true,  forced:true  },
+    guitar:  { label:"Gitarre", group:"Rhythmus", locked:false, forced:false },
+
+    sax:     { label:"Sax",      group:"Horns",    locked:false, forced:false },
+    trumpet: { label:"Trompete", group:"Horns",    locked:false, forced:false },
+    trombone:{ label:"Posaune",  group:"Horns",    locked:false, forced:false },
+
+    vocals1: { label:"Gesang (w)", group:"Gesang", locked:false, forced:false },
+    vocals2: { label:"Gesang (m)", group:"Gesang", locked:false, forced:false },
+    rap:     { label:"Rap",        group:"Gesang", locked:false, forced:false },
+  };
+
+  // =========================================================
+  // ELEMENTS
+  // =========================================================
+  const playtime = document.getElementById("playtime");
+  const playtimeVal = document.getElementById("playtimeVal");
+  const cfgZip = document.getElementById("cfgZip");
+  const cfgDate = document.getElementById("cfgDate");
+
+  const cards = Array.from(document.querySelectorAll(".CfgCard[data-inst]"));
+  const resetBtn = document.getElementById("cfgReset");
+  const countEl = document.getElementById("cfgCount");
+
+  // Meter elements
+  const vParty = document.getElementById("vParty");
+  const vDance = document.getElementById("vDance");
+  const vBg    = document.getElementById("vBg");
+  const vJazz  = document.getElementById("vJazz");
+
+  const bParty = document.getElementById("bParty");
+  const bDance = document.getElementById("bDance");
+  const bBg    = document.getElementById("bBg");
+  const bJazz  = document.getElementById("bJazz");
+
+  const sParty = document.getElementById("sParty");
+  const sDance = document.getElementById("sDance");
+  const sBg    = document.getElementById("sBg");
+  const sJazz  = document.getElementById("sJazz");
+
+  // Price + Tech
+  const cfgPrice = document.getElementById("cfgPrice");
+  const cfgPriceSub = document.getElementById("cfgPriceSub");
+  const cfgTechName = document.getElementById("cfgTechName");
+  const cfgRiderPdf = document.getElementById("cfgRiderPdf");
+  const cfgStageplanPdf = document.getElementById("cfgStageplanPdf");
+  const cfgInputListPdf = document.getElementById("cfgInputListPdf");
+  const cfgTechHint = document.getElementById("cfgTechHint");
+
+  // Links
+  const mailLink = document.getElementById("cfgMailLink");
+  const waLink = document.getElementById("cfgWhatsAppLink");
+
+  // Direct send
+  const leadEmailEl = document.getElementById("leadEmail");
+  const leadPhoneEl = document.getElementById("leadPhone");
+  const hpCompanyEl = document.getElementById("hpCompany");
+  const btnDirectSend = document.getElementById("cfgDirectSend");
+  const directStatusEl = document.getElementById("cfgDirectStatus");
+
+  // =========================================================
+  // STATE
+  // =========================================================
+  const active = new Set();
+  Object.keys(INST).forEach(k => { if (INST[k].forced) active.add(k); });
+
+  // =========================================================
+  // HELPERS
+  // =========================================================
+  function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+
+  function listActiveLabels(){
+    return Array.from(active).map(k => INST[k]?.label).filter(Boolean);
+  }
+
+  function stars(val){
+    const n = clamp(Math.round((val / 100) * 4) + 1, 1, 5);
+    return "★★★★★".slice(0, n) + "☆☆☆☆☆".slice(0, 5-n);
+  }
+
+  function computeScores(){
+    // Regeln / Gewichte wie von dir beschrieben
     const W = {
-      drums:      { party: 18, dance: 22, bg: -6, jazz:  8 },
-      bass:       { party: 12, dance: 18, bg:  6, jazz: 10 },
-      keys:       { party: 10, dance: 10, bg: 12, jazz: 14 },
-      guitar:     { party: 12, dance: 12, bg:  6, jazz:  8 },
-      percussion: { party: 10, dance: 14, bg:  4, jazz:  6 },
-      vocals1:    { party: 18, dance: 16, bg: -4, jazz:  2 },
-      vocals2:    { party: 10, dance:  8, bg: -2, jazz:  1 },
-      rap:        { party: 16, dance: 12, bg: -6, jazz:  0 },
-      sax:        { party: 14, dance: 10, bg: 10, jazz: 16 },
-      trumpet:    { party: 14, dance: 10, bg:  8, jazz: 14 },
-      trombone:   { party: 10, dance:  8, bg:  8, jazz: 14 }
+      // RHYTHMUS
+      drums:   { party:+10, bg:-16, jazz:+14 },
+      bass:    { party:+6,  bg:-8,  jazz:+12 },  // halb so stark bg runter
+      keys:    { party:+6,  bg:-10, jazz:+14 },
+      guitar:  { party:+6,  bg:-8,  jazz:+12 },  // halb so stark bg runter
+
+      // HORNS
+      sax:     { party:+8,  bg:+14, jazz:+18 },
+      trumpet: { party:+8,  bg:-16, jazz:+18 },
+      trombone:{ party:+8,  bg:+14, jazz:+18 },
+
+      // GESANG
+      vocals1: { party:+28, bg:-14, jazz:-12 },
+      vocals2: { party:+28, bg:-14, jazz:-12 },
+      rap:     { party:+34, bg:-26, jazz:-16 },
     };
 
-    // ===== PRICE MODEL =====
-    const RATE_PER_MUSICIAN_PER_HOUR = 115; // €
-    const SETUP_PER_MUSICIAN = 70;          // € einmalig
-    const AFTER_DEDUCTIONS_FACTOR = 0.85;   // 10% + 5% vom Gesamtwert => 85% bleiben
-    const RANGE_FACTOR = 0.10;              // +/- 10%
-    const ROUND_TO = 50;                    // € Rundung
+    let party = 0;
+    let dance = 0;
+    let bg    = 50;  // neutral start
+    let jazz  = 0;
 
-    // ===== STATE =====
-    const locked = new Set(["keys"]);
-    const active = new Set(["keys"]);
-    let playtime = 90; // minutes
+    for (const k of active){
+      const inst = INST[k];
+      const w = W[k] || {};
 
-    // ===== ELEMENTS =====
-    const cards = document.querySelectorAll(".CfgCard");
+      party += (w.party || 0);
+      bg    += (w.bg || 0);
+      jazz  += (w.jazz || 0);
 
-    const playtimeEl = document.getElementById("playtime");
-    const playtimeValEl = document.getElementById("playtimeVal");
-
-    const countEl = document.getElementById("cfgCount");
-    const pills = document.getElementById("cfgPills");
-    const txt = document.getElementById("cfgText");
-    const payload = document.getElementById("cfgPayload");
-
-    const vParty = document.getElementById("vParty");
-    const vDance = document.getElementById("vDance");
-    const vBg = document.getElementById("vBg");
-    const vJazz = document.getElementById("vJazz");
-
-    const bParty = document.getElementById("bParty");
-    const bDance = document.getElementById("bDance");
-    const bBg = document.getElementById("bBg");
-    const bJazz = document.getElementById("bJazz");
-
-    const sParty = document.getElementById("sParty");
-    const sDance = document.getElementById("sDance");
-    const sBg = document.getElementById("sBg");
-    const sJazz = document.getElementById("sJazz");
-
-    const priceEl = document.getElementById("cfgPrice");
-    const priceHintEl = document.getElementById("cfgPriceHint");
-
-    const btnReset = document.getElementById("cfgReset");
-    const btnCopy = document.getElementById("cfgCopy");
-    const cfgMail = document.getElementById("cfgMail");
-
-    // ===== HELPERS =====
-    const clamp = (n,a,b) => Math.max(a, Math.min(b, n));
-    const round = (n) => Math.round(n);
-
-    function euro(n){
-      // de-DE mit Punkt als Tausender
-      return Math.round(n).toLocaleString("de-DE");
+      // Tanz: nur Rhythmusgruppe, jedes = 25%
+      if (inst?.group === "Rhythmus") dance += 25;
     }
 
-    function starString(score){
-      const s = clamp(score, 0, 100);
-      const n = Math.round(s / 20); // 0..5
-      let out = "";
-      for (let i=0;i<5;i++) out += (i < n) ? "★" : "☆";
-      return out;
+    return {
+      party: clamp(party, 0, 100),
+      dance: clamp(dance, 0, 100),
+      bg:    clamp(bg,    0, 100),
+      jazz:  clamp(jazz,  0, 100),
+    };
+  }
+
+  // Preisformel:
+  // 110€/h Spielzeit pro Musiker + 100€ Fix pro Musiker
+  // Gebühren: 10% + 5% vom Gesamtbetrag => /0.85
+  function computePriceRange(){
+    const minutes = Number(playtime?.value || 90);
+    const hours = minutes / 60;
+    const musicians = active.size;
+
+    const perMusicianNet = 100 + 110 * hours;
+    const rawNet = musicians * perMusicianNet;
+    const gross = rawNet / 0.85;
+
+    const val = Math.round(gross);
+    return { low: val, high: val };
+  }
+
+  function formatEUR(n){
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function formatDateDE(iso){
+    if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return "";
+    const [y,m,d] = iso.split("-");
+    return `${d}.${m}.${y}`;
+  }
+
+  // Text für Mail/WhatsApp: OHNE Scores
+  function buildInquiryText(){
+    const minutes = Number(playtime?.value || 90);
+    const zip = (cfgZip?.value || "").trim();
+    const dateISO = (cfgDate?.value || "").trim();
+    const dateDE = formatDateDE(dateISO);
+
+    const email = (leadEmailEl?.value || "").trim();
+    const phone = (leadPhoneEl?.value || "").trim();
+    const labels = listActiveLabels();
+
+    return [
+      "FUNKgeræt Anfrage – Band-Konfigurator",
+      "",
+      "KONTAKT",
+      `E-Mail: ${email || "—"}`,
+      `Telefon: ${phone || "—"}`,
+      "",
+      "EVENT",
+      `Ort (PLZ): ${zip || "—"}`,
+      `Datum: ${dateDE || "—"}`,
+      `Spielzeit: ${minutes} min`,
+      "",
+      "BESETZUNG",
+      `${labels.join(", ") || "—"}`,
+      "",
+      `Zeitpunkt: ${new Date().toLocaleString("de-DE")}`
+    ].join("\n");
+  }
+
+  // =========================================================
+  // SYNC UI
+  // =========================================================
+  function syncCardsUI(){
+    for (const el of cards){
+      const k = el.getAttribute("data-inst");
+      const isOn = active.has(k);
+      const isLocked = !!INST[k]?.locked;
+
+      el.classList.toggle("is-on", isOn);
+      el.classList.toggle("is-locked", isLocked);
+      el.setAttribute("aria-pressed", isOn ? "true" : "false");
+    }
+    if (countEl) countEl.textContent = `${active.size} Musiker ausgewählt`;
+  }
+
+  function syncMeters(){
+    const sc = computeScores();
+
+    if (vParty) vParty.textContent = `${sc.party}/100`;
+    if (vDance) vDance.textContent = `${sc.dance}/100`;
+    if (vBg)    vBg.textContent    = `${sc.bg}/100`;
+    if (vJazz)  vJazz.textContent  = `${sc.jazz}/100`;
+
+    if (bParty) bParty.style.width = `${sc.party}%`;
+    if (bDance) bDance.style.width = `${sc.dance}%`;
+    if (bBg)    bBg.style.width    = `${sc.bg}%`;
+    if (bJazz)  bJazz.style.width  = `${sc.jazz}%`;
+
+    if (sParty) sParty.textContent = stars(sc.party);
+    if (sDance) sDance.textContent = stars(sc.dance);
+    if (sBg)    sBg.textContent    = stars(sc.bg);
+    if (sJazz)  sJazz.textContent  = stars(sc.jazz);
+  }
+
+  function syncPriceAndTech(){
+    const pr = computePriceRange();
+    if (cfgPrice) cfgPrice.textContent = formatEUR(pr.low);
+    if (cfgPriceSub) cfgPriceSub.textContent = "";
+
+    // Kein Rider-Logic mehr:
+    if (cfgTechName) cfgTechName.textContent = "";
+    // Links bleiben wie sie sind (oder du setzt sie später fix):
+    if (cfgRiderPdf && !cfgRiderPdf.getAttribute("href")) cfgRiderPdf.href = "#";
+    if (cfgStageplanPdf && !cfgStageplanPdf.getAttribute("href")) cfgStageplanPdf.href = "#";
+    if (cfgInputListPdf && !cfgInputListPdf.getAttribute("href")) cfgInputListPdf.href = "#";
+    if (cfgTechHint) cfgTechHint.textContent = "Technik wird je nach Location final mit Ihnen abgestimmt.";
+  }
+
+  function syncLinks(){
+    const txt = buildInquiryText();
+    const subject = encodeURIComponent("FUNKgeræt Anfrage (Band-Konfigurator)");
+    const body = encodeURIComponent(txt);
+
+    if (mailLink) mailLink.href = `mailto:${BOOKING_EMAIL}?subject=${subject}&body=${body}`;
+    if (waLink) waLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(txt)}`;
+  }
+
+  function fullUpdate(){
+    if (playtimeVal && playtime) playtimeVal.textContent = playtime.value;
+    syncCardsUI();
+    syncMeters();
+    syncPriceAndTech();
+    syncLinks();
+  }
+
+  // =========================================================
+  // RATE LIMIT (max 3 / 5 min)
+  // =========================================================
+  function getSendTimes(){
+    try{
+      const arr = JSON.parse(localStorage.getItem(RL_KEY) || "[]");
+      return Array.isArray(arr) ? arr : [];
+    }catch(e){
+      return [];
+    }
+  }
+
+  function setSendTimes(arr){
+    localStorage.setItem(RL_KEY, JSON.stringify(arr));
+  }
+
+  function canSendNow(){
+    const now = Date.now();
+    const cutoff = now - RL_WINDOW_MS;
+
+    const times = getSendTimes().filter(t => typeof t === "number" && t >= cutoff);
+    if (times.length >= RL_MAX){
+      const oldest = Math.min(...times);
+      const waitMs = (oldest + RL_WINDOW_MS) - now;
+      return { ok:false, waitMs: Math.max(0, waitMs) };
+    }
+    return { ok:true, waitMs:0 };
+  }
+
+  function registerSend(){
+    const now = Date.now();
+    const cutoff = now - RL_WINDOW_MS;
+    const times = getSendTimes().filter(t => typeof t === "number" && t >= cutoff);
+    times.push(now);
+    setSendTimes(times);
+  }
+
+  function formatWait(ms){
+    const s = Math.ceil(ms / 1000);
+    if (s <= 60) return `${s}s`;
+    const m = Math.ceil(s / 60);
+    return `${m}min`;
+  }
+
+  // =========================================================
+  // DIRECT SEND (Google Script)
+  // =========================================================
+  function cleanPhone(s){
+    return (s || "").replace(/[^\d+]/g, "").trim();
+  }
+
+  async function sendDirectInquiry(){
+    const email = (leadEmailEl?.value || "").trim();
+    const phone = cleanPhone(leadPhoneEl?.value || "");
+
+    // Rate Limit Check (client)
+    const rl = canSendNow();
+    if (!rl.ok){
+      if (directStatusEl) directStatusEl.textContent =
+        `⏳ Bitte kurz warten: max. ${RL_MAX} Anfragen in 5 Minuten. (${formatWait(rl.waitMs)} verbleibend)`;
+      return;
     }
 
-    function listActiveLabels(){
-      return Array.from(active).map(k => INST_LABELS[k] || k);
+    // honeypot
+    if ((hpCompanyEl?.value || "").trim().length > 0){
+      if (directStatusEl) directStatusEl.textContent = "Hmm… das hat nicht geklappt.";
+      return;
     }
 
-    function getCounts(){
-      const horns  = ["sax","trumpet","trombone"].filter(h => active.has(h)).length;
-      const fronts = (active.has("vocals1")?1:0) + (active.has("vocals2")?1:0) + (active.has("rap")?1:0);
-      return { horns, fronts, size: active.size };
+    // E-Mail Pflicht
+    if (!email){
+      if (directStatusEl) directStatusEl.textContent = "Bitte E-Mail angeben.";
+      leadEmailEl?.focus();
+      return;
     }
 
-    // ===== SCORING =====
-    function computeScores(){
-      let party=10, dance=10, bg=10, jazz=10;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+      if (directStatusEl) directStatusEl.textContent = "E-Mail sieht komisch aus 🙂";
+      leadEmailEl?.focus();
+      return;
+    }
 
-      active.forEach(k => {
-        const ww = W[k];
-        if (!ww) return;
-        party += ww.party;
-        dance += ww.dance;
-        bg    += ww.bg;
-        jazz  += ww.jazz;
+    const minutes = Number(playtime?.value || 90);
+    const zip = (cfgZip?.value || "").trim();
+    const dateISO = (cfgDate?.value || "").trim();
+
+    const pr = computePriceRange();
+    const payloadText = buildInquiryText();
+
+    const body = {
+      source: "FUNKgeraet-configurator",
+      createdAt: new Date().toISOString(),
+      email,
+      phone,
+      zip,
+      date: dateISO,
+      playtime: minutes,
+      selection: Array.from(active),
+      selectionLabels: listActiveLabels(),
+      price: { low: pr.low, high: pr.high, currency: "EUR" },
+      payloadText
+    };
+
+    if (btnDirectSend){
+      btnDirectSend.disabled = true;
+      btnDirectSend.dataset.oldText = btnDirectSend.textContent || "";
+      btnDirectSend.textContent = "Sende…";
+    }
+    if (directStatusEl) directStatusEl.textContent = "Wird gesendet…";
+
+    try{
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(body)
       });
 
-      const { horns, fronts, size } = getCounts();
+      registerSend();
+      if (directStatusEl) directStatusEl.textContent = "✅ Anfrage ist raus. Wir melden uns innerhalb von 24 Stunden!";
+      if (btnDirectSend) btnDirectSend.textContent = "Gesendet";
 
-      // Synergien
-      if (horns >= 2){ party += 10; dance += 6; }
-      if (horns >= 3){ party +=  6; dance += 4; }
-      if (fronts >= 1 && horns >= 1){ party += 8; }
-      if (fronts === 0){ bg += 8; jazz += 6; }
-      if (size >= 6){ party += 6; dance += 6; }
-      if (active.has("percussion") && active.has("drums")){ dance += 4; }
-
-      // Spielzeit bias (30..240)
-      const t = clamp((playtime - 30) / (240 - 30), 0, 1); // 0 kurz, 1 lang
-      party += (1 - t) * 8  - t * 2;
-      dance += (1 - t) * 6  - t * 2;
-      bg    += t * 10       - (1 - t) * 2;
-      jazz  += t * 6;
-
-      return {
-        party: clamp(party, 0, 100),
-        dance: clamp(dance, 0, 100),
-        bg:    clamp(bg,    0, 100),
-        jazz:  clamp(jazz,  0, 100)
-      };
-    }
-
-    // ===== PRICE =====
-    function computePriceRange(){
-      const musicians = active.size;
-      const hours = playtime / 60;
-
-      // Das soll am Ende bei den Musikern landen (netto nach Abzügen)
-      const wage =
-        musicians * (hours * RATE_PER_MUSICIAN_PER_HOUR + SETUP_PER_MUSICIAN);
-
-      // 10% + 5% Abzug vom Gesamtwert => 85% bleiben
-      const base = wage / AFTER_DEDUCTIONS_FACTOR;
-
-      const low  = base * (1 - RANGE_FACTOR);
-      const high = base * (1 + RANGE_FACTOR);
-
-      const lowR  = Math.round(low  / ROUND_TO) * ROUND_TO;
-      const highR = Math.round(high / ROUND_TO) * ROUND_TO;
-
-      return { low: lowR, high: highR, wage, base };
-    }
-
-    // ===== TEXT =====
-    function makeRecommendation(scores){
-      const { horns, fronts, size } = getCounts();
-
-      const ranking = [
-        {k:"party", v:scores.party, label:"Party"},
-        {k:"dance", v:scores.dance, label:"Tanz"},
-        {k:"bg",    v:scores.bg,    label:"Background"},
-        {k:"jazz",  v:scores.jazz,  label:"Jazz/Club"}
-      ].sort((a,b)=>b.v-a.v);
-
-      const lead = ranking[0].k;
-
-      let lines = [];
-      lines.push(`Spielzeit: ${playtime} min`);
-      lines.push(`Besetzung: ${size} Musiker${fronts?` · ${fronts}× Front`:``}${horns?` · ${horns}× Bläser`:``}`);
-      lines.push("");
-
-      if (lead === "dance"){
-        lines.push("Vibe: Tanz – Groove vorne, Energie stabil, ohne Stress.");
-      } else if (lead === "party"){
-        lines.push("Vibe: Party – Hooks, Peaks, Mitsing-/Mitgeh-Momente.");
-      } else if (lead === "bg"){
-        lines.push("Vibe: Background – edel, kontrolliert, klingt teuer statt laut.");
-      } else {
-        lines.push("Vibe: Jazz/Club – musikalisch, tight, mit Farbe & Soli.");
-      }
-
-      // Tipps (kurz & hilfreich)
-      if (playtime >= 150){
-        lines.push("");
-        lines.push("Set-Tipp: Bei langer Spielzeit lohnt sich Dramaturgie (erst smooth, später Peak).");
-      } else if (playtime <= 60){
-        lines.push("");
-        lines.push("Set-Tipp: Kurzslot = lieber klare Highlights, kein langes Warmspielen.");
-      }
-
-      if (horns === 1 && (scores.party > 60 || scores.dance > 60)){
-        lines.push("");
-        lines.push("Upgrade: 2. Bläser = sofort Horn-Section-Effekt (fetter, moderner).");
-      }
-
-      if (fronts === 0 && (scores.party > 55 || scores.dance > 55)){
-        lines.push("");
-        lines.push("Upgrade: 1× Front (Gesang/Rap) macht’s sofort zugänglicher fürs Publikum.");
-      }
-
-      return lines.join("\n");
-    }
-
-    // ===== UI =====
-    function updateUI(){
-      // Cards state
-      cards.forEach(card => {
-        const key = card.getAttribute("data-inst");
-        if (!key) return;
-
-        const on = active.has(key);
-        card.classList.toggle("is-on", on);
-        card.setAttribute("aria-pressed", on ? "true" : "false");
-
-        if (locked.has(key)) card.classList.add("is-locked");
-      });
-
-      if (countEl) countEl.textContent = `${active.size} Musiker ausgewählt`;
-
-      const scores = computeScores();
-
-      // Numbers
-      vParty.textContent = round(scores.party);
-      vDance.textContent = round(scores.dance);
-      vBg.textContent    = round(scores.bg);
-      vJazz.textContent  = round(scores.jazz);
-
-      // Bars
-      bParty.style.width = `${scores.party}%`;
-      bDance.style.width = `${scores.dance}%`;
-      bBg.style.width    = `${scores.bg}%`;
-      bJazz.style.width  = `${scores.jazz}%`;
-
-      // Stars
-      sParty.textContent = starString(scores.party);
-      sDance.textContent = starString(scores.dance);
-      sBg.textContent    = starString(scores.bg);
-      sJazz.textContent  = starString(scores.jazz);
-
-      // Pills
-      if (pills){
-        pills.innerHTML = Array.from(active)
-          .map(k => `<span class="CfgPill">${INST_LABELS[k] || k}</span>`)
-          .join("");
-      }
-
-      // Recommendation
-      if (txt) txt.textContent = makeRecommendation(scores);
-
-      // Price
-      const pr = computePriceRange();
-      if (priceEl) priceEl.textContent = `${euro(pr.low)} € – ${euro(pr.high)} €`;
-      if (priceHintEl) priceHintEl.textContent =
-        `Richtwert: 115 €/h pro Musiker + 70 € Aufbau/Person · enthält 10% + 5% Abzug vom Gesamtwert · zzgl. Fahrtkosten.`;
-
-      // Payload
-      const payloadText =
-`FUNKgeræt Band-Konfigurator
-Spielzeit: ${playtime} min
-Besetzung: ${listActiveLabels().join(", ")}
-
-Scores:
-Party: ${round(scores.party)}
-Tanz: ${round(scores.dance)}
-Background: ${round(scores.bg)}
-Jazzclub: ${round(scores.jazz)}
-
-Preisrahmen (Richtwert, zzgl. Fahrtkosten):
-${euro(pr.low)} € – ${euro(pr.high)} €
-`;
-
-      if (payload) payload.value = payloadText;
-
-      // CTA link with query param
-      if (cfgMail){
-        const enc = encodeURIComponent(payloadText);
-        cfgMail.setAttribute("href", `contact.html?config=${enc}`);
+    }catch(e){
+      if (directStatusEl) directStatusEl.textContent = "❌ Netzwerkfehler. Bitte später nochmal.";
+      if (btnDirectSend){
+        btnDirectSend.textContent = btnDirectSend.dataset.oldText || "Jetzt direkt anfragen";
+        btnDirectSend.disabled = false;
       }
     }
+  }
 
-    // ===== EVENTS =====
+  // =========================================================
+  // INTERACTION
+  // =========================================================
+  cards.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const k = btn.getAttribute("data-inst");
+      if (!k) return;
 
-    // Card toggles
-    cards.forEach(card => {
-      const key = card.getAttribute("data-inst");
-      if (!key) return;
-
-      // locked defaults always on
-      if (locked.has(key)){
-        active.add(key);
-        card.classList.add("is-on", "is-locked");
-        card.setAttribute("aria-pressed", "true");
+      if (INST[k]?.locked){
+        active.add(k);
+        fullUpdate();
+        return;
       }
 
-      card.addEventListener("click", () => {
-        if (locked.has(key)) return;
+      if (active.has(k)) active.delete(k);
+      else active.add(k);
 
-        if (active.has(key)) active.delete(key);
-        else active.add(key);
-
-        updateUI();
-      });
+      fullUpdate();
     });
+  });
 
-    // Reset
-    if (btnReset){
-      btnReset.addEventListener("click", () => {
-        active.clear();
-        locked.forEach(k => active.add(k));
-        updateUI();
-      });
-    }
+  resetBtn?.addEventListener("click", () => {
+    active.clear();
+    Object.keys(INST).forEach(k => { if (INST[k].forced) active.add(k); });
+    fullUpdate();
+  });
 
-    // Copy
-    if (btnCopy){
-      btnCopy.addEventListener("click", async () => {
-        const old = btnCopy.textContent;
-        try{
-          await navigator.clipboard.writeText(payload ? payload.value : "");
-          btnCopy.textContent = "Kopiert!";
-        }catch(e){
-          if (payload){
-            payload.focus();
-            payload.select();
-            document.execCommand("copy");
-            btnCopy.textContent = "Kopiert!";
-          }
-        }
-        setTimeout(()=>btnCopy.textContent = old, 1200);
-      });
-    }
+  playtime?.addEventListener("input", fullUpdate);
 
-    // Slider
-    function setPlaytime(val){
-      playtime = Number(val) || 90;
-      if (playtimeValEl) playtimeValEl.textContent = playtime;
-      updateUI();
-    }
+  cfgZip?.addEventListener("input", () => {
+    cfgZip.value = (cfgZip.value || "").replace(/[^\d]/g, "").slice(0, 5);
+    fullUpdate();
+  });
 
-    if (playtimeEl){
-      setPlaytime(playtimeEl.value);
-      playtimeEl.addEventListener("input", (e) => setPlaytime(e.target.value));
-    }
+  cfgDate?.addEventListener("input", fullUpdate);
 
-    // init
-    updateUI();
-  })();
-  </script>
+  btnDirectSend?.addEventListener("click", sendDirectInquiry);
+
+  // INIT
+  fullUpdate();
+})();
+</script>
+
 </body>
 </html>
