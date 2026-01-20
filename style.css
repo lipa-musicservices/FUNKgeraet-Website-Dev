@@ -1791,6 +1791,11 @@ main.Page > .Section:last-child .InfoRows{
   max-width: 62ch;
 }
 
+.IGCard{
+  margin-top: 16px;
+}
+
+
 .ConfigList{
   margin: 12px 0 0;
   padding-left: 18px;
@@ -4368,4 +4373,164 @@ body{
 .YTLink:hover{
   border-color: rgba(255,255,255,.24);
   background: rgba(255,255,255,.06);
+}
+
+/* =========================================================
+   FUNKgeræt — Downloads
+   ========================================================= */
+
+.DLPage{
+  width: min(1100px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 24px 0 70px;
+}
+
+.DLHero{
+  margin-top: 14px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  box-shadow: 0 18px 55px rgba(0,0,0,.55);
+  overflow:hidden;
+}
+
+.DLHero__inner{
+  padding: 26px;
+}
+
+.DLBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,255,0,.22);
+  background: rgba(0,255,0,.06);
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.DLTitle{
+  margin: 14px 0 6px;
+  font-size: clamp(26px, 3.2vw, 38px);
+  line-height: 1.1;
+  font-weight: 950;
+}
+
+.DLSub{
+  margin: 0;
+  opacity: .78;
+  line-height: 1.5;
+  max-width: 68ch;
+}
+
+.DLGrid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+@media (max-width: 820px){
+  .DLGrid{ grid-template-columns: 1fr; }
+  .DLHero__inner{ padding: 20px; }
+}
+
+.DLCard{
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.03);
+  box-shadow: 0 18px 55px rgba(0,0,0,.35);
+  overflow:hidden;
+  padding: 18px;
+}
+
+.DLCard__top{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.DLLang{
+  font-weight: 950;
+  font-size: 18px;
+}
+
+.DLHint{
+  opacity: .7;
+  font-size: 13px;
+}
+
+.DLList{
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.DLBtn{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+  padding: 12px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.18);
+  text-decoration:none;
+  color: inherit;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.DLBtn:hover{
+  transform: translateY(-1px);
+  border-color: rgba(0,255,0,.22);
+  background: rgba(0,255,0,.06);
+}
+
+.DLIcon{
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,.35));
+}
+
+.DLBtn__text{
+  display:flex;
+  flex-direction:column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.DLBtn__title{
+  font-weight: 900;
+  letter-spacing: .01em;
+}
+
+.DLBtn__sub{
+  opacity: .75;
+  font-size: 13px;
+}
+
+.DLNote{
+  margin-top: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.02);
+  padding: 16px 18px;
+}
+
+.DLNote__title{
+  font-weight: 950;
+  margin-bottom: 6px;
+}
+
+.DLNote__text{
+  opacity: .78;
+  line-height: 1.5;
 }

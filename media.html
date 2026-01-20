@@ -154,6 +154,21 @@
       background: rgba(255,255,255,.05);
     }
 
+    /* IGItem ist jetzt ein <a> – Link-Default entfernen */
+    a.IGItem{
+      display:block;
+      color: inherit;
+      text-decoration: none;
+    }
+    a.IGItem:visited{ color: inherit; }
+
+    /* Keyboard-Fokus sichtbar */
+    a.IGItem:focus-visible{
+      outline: 2px solid rgba(0,255,0,.55);
+      outline-offset: 3px;
+    }
+
+
     .IGThumb{
       width:100%;
       height:100%;
@@ -390,7 +405,7 @@
 
     // ✅ Später hier rein: URL zu deinem Apps Script Web App (doGet)
     // Erwartetes JSON Format (Beispiel unten bei TEST_DATA)
-    const IG_ENDPOINT = "https://script.google.com/macros/s/AKfycbyWgR3TW08hKcrdeQeEb5AnqYueH75q30UdYywaZXimmNJpWgdEvC5O8shfDBUvKcJbBQ/exec"; // z.B. "https://script.google.com/macros/s/AKfycb.../exec"
+    const IG_ENDPOINT = "https://script.google.com/macros/s/AKfycby92Pk7oZJmWAHKihUzhOWSu6Lza6K6EBe5nwyzawqe-gS5-JN9pxEdZmqjEsvct8Ko2A/exec"; // z.B. "https://script.google.com/macros/s/AKfycb.../exec"
 
     // Fallback: Testdaten (damit die Seite sofort läuft)
     const TEST_DATA = {
@@ -483,25 +498,55 @@
       }
     }
 
-    function renderPosts(posts){
+    function normalizeIgUrl(u, usernameFallback){
+      const s = String(u || "").trim();
+      const profileUrl = usernameFallback ? `https://www.instagram.com/${usernameFallback}/` : "https://www.instagram.com/";
+
+      if(!s) return profileUrl;
+
+      // Wenn nur "www..." kommt
+      const candidate = s.startsWith("www.") ? ("https://" + s) : s;
+
+      try{
+        const url = new URL(candidate);
+
+        // Nur Instagram erlauben (damit du nicht "irgendwo anders" landest)
+        const host = url.hostname.replace(/^www\./, "");
+        if(host !== "instagram.com") return profileUrl;
+
+        return url.toString();
+      }catch(e){
+        return profileUrl;
+      }
+    }
+
+    function renderPosts(posts, username){
       const grid = $("#igGrid");
       grid.classList.remove("SkeletonGrid");
       grid.innerHTML = "";
 
+      // Debug: true setzen wenn du checken willst
+      const DEBUG_LINKS = false;
+
       for(const post of posts){
         const type = postTypeLabel(post.media_type);
         const date = fmtDate(post.timestamp);
-        const thumb = post.media_type === "VIDEO"
-          ? (post.thumbnail_url || post.media_url)
-          : (post.media_url);
 
-        const item = document.createElement("div");
-        item.className = "IGItem";
-        item.setAttribute("role", "link");
-        item.setAttribute("tabindex", "0");
-        item.setAttribute("aria-label", "Instagram Post öffnen");
+        const isVideo = String(post.media_type || "").toUpperCase() === "VIDEO";
+        const thumb = isVideo ? (post.thumbnail_url || post.media_url) : post.media_url;
 
-        item.innerHTML = `
+        const url = normalizeIgUrl(post.permalink.replace("reel","p"), username);
+
+        if (DEBUG_LINKS) console.log("IG Render:", post.id, post.permalink, "->", url);
+
+        const a = document.createElement("a");
+        a.className = "IGItem";
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.setAttribute("aria-label", "Instagram Post öffnen");
+
+        a.innerHTML = `
           <img class="IGThumb" loading="lazy" src="${esc(thumb)}" alt="${esc(post.caption || "")}">
           <div class="IGHover">
             <div class="IGBadgeRow">
@@ -512,22 +557,11 @@
           </div>
         `;
 
-        const url = post.permalink || "#";
-        const open = () => {
-          if(url && url !== "#") window.open(url, "_blank", "noopener");
-        };
-
-        item.addEventListener("click", open);
-        item.addEventListener("keydown", (e) => {
-          if(e.key === "Enter" || e.key === " "){
-            e.preventDefault();
-            open();
-          }
-        });
-
-        grid.appendChild(item);
+        grid.appendChild(a);
       }
     }
+
+
 
     async function loadFromEndpoint(){
       if(!IG_ENDPOINT) return null;
@@ -550,18 +584,21 @@
         const posts = Array.isArray(data.posts) ? data.posts : [];
         if(!posts.length){
           renderPosts([]);
+
           setStatus("Keine Posts gefunden (oder Endpoint liefert noch nichts).");
           return;
         }
 
-        renderPosts(posts);
+        renderPosts(posts, data.profile?.username);
+
         setStatus("Aktualisiert. Klick einen Post für das Original auf Instagram.");
       }catch(err){
         console.error(err);
         setStatus("Konnte den Feed gerade nicht laden. (Endpoint/Token/Script noch nicht fertig?)");
         renderProfile(TEST_DATA.profile);
         setHeroChips(TEST_DATA.profile);
-        renderPosts(TEST_DATA.posts);
+        renderPosts(TEST_DATA.posts, TEST_DATA.profile?.username);
+
       }
     }
 
