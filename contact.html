@@ -134,6 +134,7 @@
       opacity: .90;
       line-height: 1.4;
       min-height: 18px;
+      white-space: pre-line;
     }
 
     /* Honeypot unsichtbar */
@@ -170,6 +171,13 @@
       color: inherit;
       font-weight: 900;
     }
+
+    .Tiny{
+      font-size: 12px;
+      opacity: .75;
+      margin-top: 10px;
+      line-height: 1.4;
+    }
   </style>
 </head>
 
@@ -188,7 +196,6 @@
     </header>
 
     <section class="ContactGrid">
-
       <!-- FORM -->
       <article class="Card" aria-label="Kontaktformular">
         <div style="font-weight:950; font-size:18px;">Kontaktformular</div>
@@ -196,17 +203,7 @@
           Pflichtfelder: Name, E-Mail, Nachricht.
         </div>
 
-        <!--
-          Wichtig:
-          - method POST
-          - action = Apps Script /exec
-          - target = hidden iframe (für Rückmeldung ohne CORS)
-        -->
-        <form id="fgForm" autocomplete="on"
-              method="POST"
-              action="https://script.google.com/macros/s/AKfycbwvuCyBeY2Wa-XOmxYzfoWo6GTu2qUEPhMCHqm7nAn_bm1lQnHfqWdwXcyQPEZ30pp7/exec"
-              target="fgSink">
-
+        <form id="fgForm" autocomplete="on" novalidate>
           <div class="FormGrid">
             <div class="Field">
               <label class="Label" for="name">Name *</label>
@@ -233,28 +230,23 @@
           <!-- Honeypot -->
           <input class="HpField" id="company" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
-          <!-- Hidden Meta -->
-          <input type="hidden" id="ua" name="ua" />
-          <input type="hidden" id="page" name="page" />
-          <input type="hidden" id="origin" name="origin" />
-          <input type="hidden" id="clientId" name="clientId" />
-
           <div class="Actions">
             <button class="Btn Btn--accent" id="sendBtn" type="submit">Senden</button>
           </div>
 
           <div class="Status" id="status">—</div>
-        </form>
 
-        <!-- Hidden iFrame receiver -->
-        <iframe name="fgSink" id="fgSink" style="display:none;"></iframe>
+          <div class="Tiny">
+            Anti-Spam: max. <b>3 Nachrichten pro 5 Minuten</b> pro Gerät.
+          </div>
+        </form>
       </article>
 
       <!-- SIDE -->
       <aside class="Card" aria-label="Direktkontakt">
         <div style="font-weight:950; font-size:18px;">Direktkontakt</div>
         <div class="MiniHint" style="margin-top:6px;">
-          Wenn dein Mailprogramm sowieso offen ist:
+          
         </div>
 
         <div class="MailBox">
@@ -264,10 +256,9 @@
         </div>
 
         <div class="MiniHint" style="margin-top:12px;">
-          Hinweis: Max. <b>3 Nachrichten pro 5 Minuten</b> pro Gerät (Anti-Spam).
+          
         </div>
       </aside>
-
     </section>
   </main>
 
@@ -292,14 +283,17 @@
 
   <script>
     // =========================================================
-    // FUNKgeræt Contact Form (real feedback via postMessage)
+    // FUNKgeræt Contact Form — Clean v1 (Fetch + JSON Response)
     // =========================================================
+
+    // TODO: HIER DEINE /exec URL rein:
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwIQ_PBw0DM8HKCxT6zGQ-z6eJqdSOUQ4qjqOrSdV7wkhX0CQyUr-gAi1PNy5Q8fD9/exec";
 
     const form = document.getElementById("fgForm");
     const statusEl = document.getElementById("status");
     const sendBtn = document.getElementById("sendBtn");
 
-    // client-side limit (zusätzlich zum Serverlimit)
+    // Client-side Rate Limit (zusätzlich zum Serverlimit)
     const RL_KEY = "FG_CONTACT_SEND_TIMES";
     const RL_WINDOW_MS = 5 * 60 * 1000;
     const RL_MAX = 3;
@@ -313,6 +307,7 @@
       }catch(e){ return []; }
     }
     function setSendTimes(arr){ localStorage.setItem(RL_KEY, JSON.stringify(arr)); }
+
     function canSendNow(){
       const now = Date.now();
       const cutoff = now - RL_WINDOW_MS;
@@ -337,7 +332,6 @@
       return Math.ceil(s/60) + "min";
     }
 
-    // stabile Client-ID (für Server-Ratelimit)
     const CID_KEY = "FG_CONTACT_CLIENT_ID";
     function getClientId(){
       let id = localStorage.getItem(CID_KEY);
@@ -348,49 +342,35 @@
       return id;
     }
 
-    // Pending request timeout (falls Apps Script nicht antwortet)
-    let pending = null;
+    function newNonce(){
+      return (crypto?.randomUUID ? crypto.randomUUID() : ("n_" + Math.random().toString(16).slice(2) + Date.now()));
+    }
 
-    window.addEventListener("message", (ev) => {
-      if(!ev || !ev.data || ev.data.source !== "FG_CONTACT") return;
-      if(!pending) return;
+    async function postJson(url, payload, timeoutMs=12000){
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), timeoutMs);
 
-      clearTimeout(pending.timer);
-      pending = null;
+      try{
+        const res = await fetch(url, {
+          method: "POST",
+          mode: "cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" }, // GAS frisst das zuverlässig
+          body: JSON.stringify(payload),
+          signal: ctrl.signal
+        });
 
-      const res = ev.data.payload || {};
+        // GAS liefert JSON mit ContentService
+        const text = await res.text();
+        let json = null;
+        try{ json = JSON.parse(text); }catch(e){ json = { ok:false, error:"bad_json", details:text?.slice(0,300) }; }
+        return json;
 
-      if(res.ok){
-        registerSend();
-        sendBtn.textContent = "Gesendet";
-        setStatus("✅ Anfrage abgeschickt. Wir melden uns fix zurück.");
-        form.reset();
-        setTimeout(() => {
-          sendBtn.textContent = "Senden";
-          sendBtn.disabled = false;
-        }, 1400);
-        return;
+      } finally {
+        clearTimeout(t);
       }
+    }
 
-      // error
-      sendBtn.disabled = false;
-      sendBtn.textContent = "Senden";
-
-      if(res.error === "missing_fields"){
-        setStatus("❌ Bitte Name, E-Mail und Nachricht ausfüllen.");
-      } else if(res.error === "bad_email"){
-        setStatus("❌ E-Mail sieht nicht korrekt aus.");
-      } else if(res.error === "rate_limited"){
-        const ms = Number(res.waitMs || 0);
-        setStatus(`⏳ Zu viele Nachrichten. Bitte in ${fmtWait(ms)} nochmal versuchen.`);
-      } else if(res.error === "missing_clientId"){
-        setStatus("❌ Technischer Fehler: clientId fehlt. (localStorage blockiert?)");
-      } else {
-        setStatus("❌ Fehler: " + (res.error || "unknown"));
-      }
-    });
-
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const rl = canSendNow();
@@ -401,40 +381,73 @@
 
       const name = (document.getElementById("name").value || "").trim();
       const email = (document.getElementById("email").value || "").trim();
+      const phone = (document.getElementById("phone").value || "").trim();
       const message = (document.getElementById("message").value || "").trim();
+      const hp = (document.getElementById("company").value || "").trim();
+
+      if(hp){
+        // Bot -> tu so als ob alles gut wäre
+        setStatus("✅ Anfrage abgeschickt. Wir melden uns fix zurück.");
+        return;
+      }
 
       if(!name || !email || !message){
-        setStatus("Bitte Name, E-Mail und Nachricht ausfüllen.");
+        setStatus("❌ Bitte Name, E-Mail und Nachricht ausfüllen.");
         return;
       }
       if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-        setStatus("E-Mail sieht komisch aus 🙂");
+        setStatus("❌ E-Mail sieht nicht korrekt aus.");
         return;
       }
 
-      // Hidden meta setzen
-      document.getElementById("ua").value = navigator.userAgent;
-      document.getElementById("page").value = location.href;
-      document.getElementById("origin").value = location.origin;
-      document.getElementById("clientId").value = getClientId();
-
-      // UI
       sendBtn.disabled = true;
       sendBtn.textContent = "Sende…";
       setStatus("Wird gesendet…");
 
-      // Timeout: keine Rückmeldung => Deployment/Rechte/Version kaputt
-      pending = {
-        timer: setTimeout(() => {
-          pending = null;
-          sendBtn.disabled = false;
-          sendBtn.textContent = "Senden";
-          setStatus("❌ Keine Rückmeldung vom Server. Prüfe Apps-Script Deployment (/exec), Rechte (Anyone) und ob die neueste Version deployed ist.");
-        }, 12000)
+      const payload = {
+        name, email, phone, message,
+        ua: navigator.userAgent,
+        page: location.href,
+        origin: (location.origin && location.origin !== "null") ? location.origin : "",
+        clientId: getClientId(),
+        nonce: newNonce(),
+        ts: new Date().toISOString()
       };
 
-      // echte Submission in hidden iframe (CORS egal)
-      form.submit();
+      try{
+        const res = await postJson(GOOGLE_SCRIPT_URL, payload, 12000);
+
+        if(res && res.ok){
+          registerSend();
+          setStatus("✅ Anfrage abgeschickt. Wir melden uns fix zurück.");
+          form.reset();
+          sendBtn.textContent = "Gesendet";
+          setTimeout(() => {
+            sendBtn.textContent = "Senden";
+            sendBtn.disabled = false;
+          }, 1400);
+          return;
+        }
+
+        // Fehlerfälle (Server-Errors)
+        const err = res?.error || "unknown";
+        if(err === "missing_fields") setStatus("❌ Bitte Name, E-Mail und Nachricht ausfüllen.");
+        else if(err === "bad_email") setStatus("❌ E-Mail sieht nicht korrekt aus.");
+        else if(err === "rate_limited") setStatus(`⏳ Zu viele Nachrichten. Bitte in ${fmtWait(Number(res.waitMs||0))} nochmal versuchen.`);
+        else if(err === "send_failed") setStatus("❌ Versand fehlgeschlagen. Bitte später nochmal versuchen.");
+        else if(err === "quota_exceeded") setStatus("❌ Mail-Quota leer (Apps Script). Morgen wieder oder anderes Konto.");
+        else if(err === "bad_json") setStatus("❌ Server-Antwort nicht lesbar. (Kein JSON zurückbekommen)");
+        else setStatus("❌ Fehler: " + err);
+
+        sendBtn.disabled = false;
+        sendBtn.textContent = "Senden";
+
+      } catch(ex){
+        sendBtn.disabled = false;
+        sendBtn.textContent = "Senden";
+        if(String(ex).includes("AbortError")) setStatus("❌ Timeout beim Senden. Bitte nochmal versuchen.");
+        else setStatus("❌ Senden fehlgeschlagen. Prüfe Internetverbindung / Script-URL.");
+      }
     });
   </script>
 </body>
